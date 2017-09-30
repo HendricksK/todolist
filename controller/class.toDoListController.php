@@ -9,6 +9,7 @@ class toDoListController {
 	function __construct() {
 		$this->databaseController = new databaseController();
 	}
+
 	/**
 	 * [addNewItem adds single item to database]
 	 * @param [type] $item [the new item on the todolist]
@@ -113,4 +114,34 @@ class toDoListController {
 
 		return $data;
 	}
+
+	/**
+	 * [markItemAsComplete will update a specified]
+	 * @param  [type] $id [id of the item]
+	 * @return [type]     [json]
+	 */
+	public function updateToDoList($id, $item) {
+		$sql = "update Personal_Organization.toDo_List set description=" . $item  . " where id =" . $id; 
+		$data = $this->databaseController->queryDatabase($sql);
+
+		return $data;
+	}
+
+	/**
+	 * [addNewItem adds comment to the database for a todlolist item]
+	 * @param [type] $id [todo list item id]
+	 * @param [type] $item [the new comment] 
+	 */
+	public function addNewCommentToItem($id,$item) {
+		// insert into  Personal_Organization.toDo_List(`description`,`user_id`) VALUE ('completete pricecheck test',1);
+		$sql = "insert into Personal_Organization.toDo_Comments(`to_do_id`,`comment_data`,`modified`) values ('" . $id . "'," . $item .",NOW())";
+		$response = $this->databaseController->queryDatabase($sql);
+		
+		if($response === true) {
+			return 1;
+		}
+
+		return 0;
+	}
+
 }

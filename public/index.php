@@ -13,7 +13,7 @@ $app = new \Slim\App;
  */
 $app->get('/', function (Request $request, Response $response) {
     
-    $response->getBody()->write('Give me your location');
+    $response->getBody()->write('ping');
 
     return $response;
 });

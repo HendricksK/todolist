@@ -8,6 +8,8 @@ CREATE TABLE toDo_List (
 	`complete` boolean NOT NULL DEFAULT 0,
 	`description` MEDIUMTEXT NOT NULL, 
 	`deleted` boolean NOT NULL DEFAULT 0,
+	`user_id` bigint(20) not null,
+	`modified_date` timestamp,
 	PRIMARY KEY(`id`)
 );
 
@@ -18,4 +20,11 @@ CREATE TABLE toDo_Comments (
 	`insert_date` timestamp DEFAULT CURRENT_TIMESTAMP,
 	`modified` timestamp,
 	PRIMARY KEY (`id`)	
+);
+
+create table toDo_User (
+	`id` bigint(20) not null AUTO_INCREMENT,
+	`username` VARCHAR(50) not null,
+	`password` VARCHAR(50) not null,
+	primary key(`id`)
 );
