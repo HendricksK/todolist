@@ -1,0 +1,43 @@
+.wrapper {
+  top: 5rem;
+  width: 100rem;
+  margin: 5rem auto 0 auto;
+}
+.animated-search-form[type=search] {
+  width: 10rem;
+  border: 0.125rem solid #e6e6e6;
+  box-shadow: 0 0 3.125rem rgba(0, 0, 0, 0.18);
+  border-radius: 0;
+  background-image: url("//image.ibb.co/i7NbrQ/search_icon_15.png");
+  background-position: 0.625rem 0.625rem;
+  background-repeat: no-repeat;
+  padding: 0.75rem 1.25rem 0.75rem 2rem;
+  transition: width 0.4s ease-in-out;
+}
+
+.animated-search-form[type=search]:focus {
+  width: 100%;
+}
+
+.polls {
+  margin-bottom: 1rem;
+}
+
+.polls .polls-question {
+  margin-bottom: .5rem;
+}
+
+.polls .polls-question .polls-question-label {
+  color: #1779ba;
+  font-weight: 500;
+  margin-right: .25rem;
+}
+
+.polls .polls-submit {
+  margin-top: .3rem;
+}
+
+.polls .polls-submit .button {
+  margin-right: .5rem;
+  text-transform: uppercase;
+}
