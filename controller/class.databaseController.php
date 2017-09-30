@@ -8,6 +8,11 @@ class databaseController {
 		$this->databaseController = new mysqli('localhost', 'root', 'root');
 	}
 
+	/**
+	 * [queryDatabase queries database, pass SQL]
+	 * @param  [type] $sql [string]
+	 * @return [type]      [data, or error]
+	 */
 	public function queryDatabase($sql) {
 		try {
 			$data = $this->databaseController->query($sql);
@@ -19,7 +24,11 @@ class databaseController {
 		
 	}	
 
-	public function closeConnection() {
+	/**
+	 * [closeConnection closes the database connector]
+	 * @return [type] [none void function]
+	 */
+	private function closeConnection() {
 		$this->databaseController->close();
 	}
 
