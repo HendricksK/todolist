@@ -16,7 +16,6 @@ class databaseController {
 	public function queryDatabase($sql) {
 		try {
 			$data = $this->databaseController->query($sql);
-			$this->closeConnection();
 			return $data;	
 		} catch (Exception $e) {
 			return $e;
@@ -28,7 +27,7 @@ class databaseController {
 	 * [closeConnection closes the database connector]
 	 * @return [type] [none void function]
 	 */
-	private function closeConnection() {
+	public function closeConnection() {
 		$this->databaseController->close();
 	}
 

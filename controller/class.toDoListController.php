@@ -20,9 +20,11 @@ class toDoListController {
 		$response = $this->databaseController->queryDatabase($sql);
 		
 		if($response === true) {
+			$this->databaseController->closeConnection();
 			return 1;
 		}
 
+		$this->databaseController->closeConnection();
 		return 0;
 	}
 
@@ -40,10 +42,11 @@ class toDoListController {
 			foreach($data as $item) {
 				array_push($toDoItems, $item);
 			}
-
+			$this->databaseController->closeConnection();
 			return json_encode($toDoItems);	
 		}
 
+		$this->databaseController->closeConnection();
 		return false;
 		
 	}
@@ -63,9 +66,11 @@ class toDoListController {
 				array_push($toDoItems, $item);
 			}
 
+			$this->databaseController->closeConnection();
 			return json_encode($toDoItems);	
 		}
 
+		$this->databaseController->closeConnection();
 		return false;
 		
 	}	
@@ -85,9 +90,11 @@ class toDoListController {
 				array_push($toDoItems, $item);
 			}
 
+			$this->databaseController->closeConnection();
 			return json_encode($toDoItems);	
 		}
 
+		$this->databaseController->closeConnection();
 		return false;
 	}
 
@@ -99,7 +106,7 @@ class toDoListController {
 	public function markAllItemsCompleted($id) {
 		$sql = "update Personal_Organization.toDo_List set deleted=1 where user_id =" . $id; 
 		$data = $this->databaseController->queryDatabase($sql);
-
+		$this->databaseController->closeConnection();
 		return $data;
 	}
 
@@ -111,7 +118,7 @@ class toDoListController {
 	public function markItemAsComplete($id) {
 		$sql = "update Personal_Organization.toDo_List set deleted=1 where id =" . $id; 
 		$data = $this->databaseController->queryDatabase($sql);
-
+		$this->databaseController->closeConnection();
 		return $data;
 	}
 
@@ -123,7 +130,7 @@ class toDoListController {
 	public function updateToDoList($id, $item) {
 		$sql = "update Personal_Organization.toDo_List set description=" . $item  . " where id =" . $id; 
 		$data = $this->databaseController->queryDatabase($sql);
-
+		$this->databaseController->closeConnection();
 		return $data;
 	}
 
@@ -136,7 +143,7 @@ class toDoListController {
 		// insert into  Personal_Organization.toDo_List(`description`,`user_id`) VALUE ('completete pricecheck test',1);
 		$sql = "insert into Personal_Organization.toDo_Comments(`to_do_id`,`comment_data`,`modified`) values ('" . $id . "'," . $item .",NOW())";
 		$response = $this->databaseController->queryDatabase($sql);
-		
+		$this->databaseController->closeConnection();
 		if($response === true) {
 			return 1;
 		}
