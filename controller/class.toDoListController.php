@@ -99,13 +99,18 @@ class toDoListController {
 		$sql = "update Personal_Organization.toDo_List set deleted=1 where user_id =" . $id; 
 		$data = $this->databaseController->queryDatabase($sql);
 
-		var_Dump($data);
+		return $data;
 	}
 
+	/**
+	 * [markItemAsComplete checks a single item as deleted/completed]
+	 * @param  [type] $id [id of the item]
+	 * @return [type]     [json]
+	 */
 	public function markItemAsComplete($id) {
 		$sql = "update Personal_Organization.toDo_List set deleted=1 where id =" . $id; 
 		$data = $this->databaseController->queryDatabase($sql);
 
-		var_Dump($data);
+		return $data;
 	}
 }
