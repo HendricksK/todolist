@@ -4,7 +4,6 @@
 	getAllCompletedItems();
 	document.getElementById('add-new-item').addEventListener('click', addNewToDoItem);
 	document.getElementById('complete-all-items').addEventListener('click', markAllItemsComplete);
-	document.getElementById('check-to-do-list-item').addEventListener('click', markSingleItemAsComplete);
 
 })();
 
@@ -24,10 +23,11 @@ function getAllToDoItems() {
 
 			for(var x = 0; x < toDoList.length; x++) {
 				toDoListDom = toDoListDom + 
-				'<div><input id="check-to-do-list-item" data-id="' + toDoList[x]['id'] + '" type="checkbox"><label for="checkbox_' + toDoList[x]['id'] + '">'
+				'<div><input id="checkbox_"'+ toDoList[x]['id'] +' data-id="' + toDoList[x]['id'] + '" type="checkbox" onclick="markSingleItemAsComplete(this)"><label for="checkbox_' + toDoList[x]['id'] + '">'
 				+ toDoList[x]['description'] + ' - ' + toDoList[x]['insert_date'] + '</label></div>';
 			}
-			document.getElementById('to-do-list').innerHTML = toDoListDom;		       
+			document.getElementById('to-do-list').innerHTML = toDoListDom;
+	       
 	    }
 	    else {
 	        alert('Request failed.  Returned status of ' + xhr.status);
@@ -69,7 +69,7 @@ function reloadToDoList() {
 
 			for(var x = 0; x < toDoList.length; x++) {
 				toDoListDom = toDoListDom + 
-				'<div><input name="check-to-do-list-item" id="checkbox_' + toDoList[x]['id'] + '" data-id="' + toDoList[x]['id'] + '" type="checkbox"><label for="checkbox_' + toDoList[x]['id'] + '">'
+				'<div><input id="checkbox_"'+ toDoList[x]['id'] +' data-id="' + toDoList[x]['id'] + '" type="checkbox" onclick="markSingleItemAsComplete(this)"><label for="checkbox_' + toDoList[x]['id'] + '">'
 				+ toDoList[x]['description'] + ' - ' + toDoList[x]['insert_date'] + '</label></div>';
 			}
 			document.getElementById('to-do-list').innerHTML = toDoListDom;		       
@@ -146,23 +146,25 @@ function markAllItemsComplete() {
 	xhr.send(postParams);
 }
 
-function markSingleItemAsComplete() {
-	console.log('please girl stay to the early morning');
+function markSingleItemAsComplete(element) {
+	
+	if(element.getAttribute('data-id') != null) {
+		var postParams = 'id=' +  element.getAttribute('data-id');
 
-	// var id = 1;
-	// var postParams = 'id=' +  id;
+	    xhr = new XMLHttpRequest();
+		xhr.open('PUT', getBaseUrl() + 'mark-single-items-complete');
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
- //    xhr = new XMLHttpRequest();
-	// xhr.open('PUT', getBaseUrl() + 'mark-all-items-complete');
-	// xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.onreadystatechange = function() {
+	    if(xhr.status != 200) {
+	        	alert('An error has occured, please try again');
+	    	}
 
-	// xhr.onreadystatechange = function() {
- //    if(xhr.status != 200) {
- //        	alert('An error has occured, please try again');
- //    	}
- //    	reloadToDoList();
- //    	reloadCompletedList();
-	// } 
+	    	reloadToDoList();
+	    	reloadCompletedList();
+		} 
 
-	// xhr.send(postParams);
+		xhr.send(postParams);
+	}
+	
 }
