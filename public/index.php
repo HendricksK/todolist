@@ -19,12 +19,38 @@ $app->get('/', function (Request $request, Response $response) {
 });
 
 $app->get('/get-all-todo/{id}', function (Request $request, Response $response) {
-	
-	$userid = $request->getAttribute('id');
+
+	$id = $request->getAttribute('id');
     $toDoListController = new toDoListController();
-    $response = $toDoListController->getAllItems($userid);
+    $response = $toDoListController->getAllItems($id);
 
     return $response;
+});
+
+$app->get('/get-completed-todo/{id}', function (Request $request, Response $response) {
+
+	$id = $request->getAttribute('id');
+    $toDoListController = new toDoListController();
+    $response = $toDoListController->getAllCompletedItems($id);
+
+    return $response;
+});
+
+$app->post('/new-to-do-item', function (Request $request, Response $response) {
+	
+	$queryParams = $request->getParsedBody();
+	
+	if(!empty($queryParams['id']) && !empty($queryParams['description'])) {
+		$id = $queryParams['id'];
+		$itemDescription = $queryParams['description'];
+		$toDoListController = new toDoListController();
+		$response = $toDoListController->addNewItem($id, $itemDescription);
+	    
+	    return $response;
+	}
+
+	return 0;
+	
 });
 
 $app->run();
