@@ -54,7 +54,7 @@ class toDoListController {
 	 */
 	public function getAllCompletedItems($id) {
 		$toDoItems = array();
-		$sql = "select * from Personal_Organization.toDo_List where user_id =" . $id . " AND deleted = 1"; 
+		$sql = "select * from Personal_Organization.toDo_List where user_id =" . $id . " AND deleted = 1 order by id DESC"; 
 		$data = $this->databaseController->queryDatabase($sql);
 
 		if(!empty($data)) {
@@ -96,10 +96,16 @@ class toDoListController {
 	 * @return [json]     [returns success or failure]
 	 */
 	public function markAllItemsCompleted($id) {
+		$sql = "update Personal_Organization.toDo_List set deleted=1 where user_id =" . $id; 
+		$data = $this->databaseController->queryDatabase($sql);
 
+		var_Dump($data);
 	}
 
-	public function removeItemByID() {
-		
+	public function markItemAsComplete($id) {
+		$sql = "update Personal_Organization.toDo_List set deleted=1 where id =" . $id; 
+		$data = $this->databaseController->queryDatabase($sql);
+
+		var_Dump($data);
 	}
 }

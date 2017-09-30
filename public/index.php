@@ -53,4 +53,34 @@ $app->post('/new-to-do-item', function (Request $request, Response $response) {
 	
 });
 
+$app->put('/mark-all-items-complete', function (Request $request, Response $response) {
+	$queryParams = $request->getParsedBody();
+
+	if(!empty($queryParams['id'])) {
+		$id = $queryParams['id'];
+		$toDoListController = new toDoListController();
+		$response = $toDoListController->markAllItemsCompleted($id);
+	    
+	    return $response;
+	}
+
+	return 0;
+	
+});
+
+$app->put('/mark-single-items-complete', function (Request $request, Response $response) {
+	$queryParams = $request->getParsedBody();
+
+	if(!empty($queryParams['id'])) {
+		$id = $queryParams['id'];
+		$toDoListController = new toDoListController();
+		$response = $toDoListController->markItemAsComplete($id);
+	    
+	    return $response;
+	}
+
+	return 0;
+	
+});
+
 $app->run();

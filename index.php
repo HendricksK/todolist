@@ -13,17 +13,14 @@
 				   	To do list:
 				</h5>
 				<div class="todo-options" id="to-do-list">
-				  	NO ITEMS FOUND
 				</div>
 			</div>
-			<div class="todo">
-				<input type="text" name="new-todo-item" id="new-todo-item" placeholder="Add new to do item">
-				<div class="todo-submit">
-				    <input type="submit" class="button" value="New to do" id="add-new-item">
-				    <input type="submit" class="button" value="Mark all items completed" id="complete-all-items">
-				</div>
+			<input type="text" name="new-todo-item" id="new-todo-item" placeholder="Add new to do item">
+			<div class="todo-submit">
+			    <input type="submit" class="button" value="New to do" id="add-new-item">
+			    <input type="submit" class="button success" value="Mark all items completed" id="complete-all-items">
 			</div>
-			<div class="todo">
+			<div class="todo completed">
 				<h5 class="todo-question">
 				    Completed items:
 				</h5>

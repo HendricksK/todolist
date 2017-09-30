@@ -41,3 +41,8 @@
   margin-right: .5rem;
   text-transform: uppercase;
 }
+
+.todo.completed {
+  height:  15rem;
+  overflow-y: scroll;
+}

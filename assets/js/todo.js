@@ -1,14 +1,21 @@
 (function() {
-	
+
 	getAllToDoItems();
 	getAllCompletedItems();
 	document.getElementById('add-new-item').addEventListener('click', addNewToDoItem);
+	document.getElementById('complete-all-items').addEventListener('click', markAllItemsComplete);
+	document.getElementById('check-to-do-list-item').addEventListener('click', markSingleItemAsComplete);
 
 })();
 
+function getBaseUrl() {
+	return 'http://192.168.33.10/todolist/public/';
+}
+
 function getAllToDoItems() {
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET','http://192.168.33.10/todolist/public/get-all-todo/1');
+	var id = 1;
+	xhr.open('GET', getBaseUrl() + 'get-all-todo/' + id);
 	xhr.onload = function() {
 	    if (xhr.status === 200) {
 	        // alert('User\'s name is ' + xhr.responseText);
@@ -16,8 +23,9 @@ function getAllToDoItems() {
 	        var toDoListDom = '';
 
 			for(var x = 0; x < toDoList.length; x++) {
-				console.log(toDoList[x]);
-				toDoListDom = toDoListDom + '<div><input id="checkbox1" type="checkbox"><label for="checkbox1">' + toDoList[x]['description'] + ' - ' + toDoList[x]['insert_date'] + '</label></div>';
+				toDoListDom = toDoListDom + 
+				'<div><input id="check-to-do-list-item" data-id="' + toDoList[x]['id'] + '" type="checkbox"><label for="checkbox_' + toDoList[x]['id'] + '">'
+				+ toDoList[x]['description'] + ' - ' + toDoList[x]['insert_date'] + '</label></div>';
 			}
 			document.getElementById('to-do-list').innerHTML = toDoListDom;		       
 	    }
@@ -34,23 +42,25 @@ function addNewToDoItem() {
 	var postParams = 'id=' +  id + '&description=' + description;
 
     xhr = new XMLHttpRequest();
-	xhr.open('POST', 'http://192.168.33.10/todolist/public/new-to-do-item');
+	xhr.open('POST', getBaseUrl() + 'new-to-do-item');
 	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
 	xhr.onreadystatechange = function() {
     if(xhr.status != 200) {
         	alert('An error has occured, please try again');
     	}
-	}
-	xhr.send(postParams);
+    	reloadToDoList();
+	} 
 
-	reloadToDoList();
+	xhr.send(postParams);
+	
 	document.getElementById('new-todo-item').value = '';
 }
 
 function reloadToDoList() {
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET','http://192.168.33.10/todolist/public/get-all-todo/1');
+	var id = 1;
+	xhr.open('GET', getBaseUrl() + 'get-all-todo/' + id);
 	xhr.onload = function() {
 	    if (xhr.status === 200) {
 	        // alert('User\'s name is ' + xhr.responseText);
@@ -58,8 +68,9 @@ function reloadToDoList() {
 	        var toDoListDom = '';
 
 			for(var x = 0; x < toDoList.length; x++) {
-				console.log(toDoList[x]);
-				toDoListDom = toDoListDom + '<div><input id="checkbox1" type="checkbox"><label for="checkbox1">' + toDoList[x]['description'] + ' - ' + toDoList[x]['insert_date'] + '</label></div>';
+				toDoListDom = toDoListDom + 
+				'<div><input name="check-to-do-list-item" id="checkbox_' + toDoList[x]['id'] + '" data-id="' + toDoList[x]['id'] + '" type="checkbox"><label for="checkbox_' + toDoList[x]['id'] + '">'
+				+ toDoList[x]['description'] + ' - ' + toDoList[x]['insert_date'] + '</label></div>';
 			}
 			document.getElementById('to-do-list').innerHTML = toDoListDom;		       
 	    }
@@ -70,10 +81,11 @@ function reloadToDoList() {
 	xhr.send();
 }
 
-function getAllCompletedItems() {
+function reloadCompletedList() {
 	// to-do-list-completed
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET','http://192.168.33.10/todolist/public/get-completed-todo/1');
+	var id = 1;
+	xhr.open('GET', getBaseUrl() + 'get-completed-todo/' + id);
 	xhr.onload = function() {
 	    if (xhr.status === 200) {
 	        // alert('User\'s name is ' + xhr.responseText);
@@ -81,7 +93,6 @@ function getAllCompletedItems() {
 	        var toDoListDom = '';
 
 			for(var x = 0; x < toDoList.length; x++) {
-				console.log(toDoList[x]);
 				toDoListDom = toDoListDom + '<div><label>' + toDoList[x]['description'] + '</label></div>';
 			}
 			document.getElementById('to-do-list-completed').innerHTML = toDoListDom;		       
@@ -93,3 +104,65 @@ function getAllCompletedItems() {
 	xhr.send();
 }
 
+function getAllCompletedItems() {
+	// to-do-list-completed
+	var xhr = new XMLHttpRequest();
+	var id = 1;
+	xhr.open('GET', getBaseUrl() + 'get-completed-todo/' + id);
+	xhr.onload = function() {
+	    if (xhr.status === 200) {
+	        // alert('User\'s name is ' + xhr.responseText);
+	        var toDoList = JSON.parse(xhr.responseText);
+	        var toDoListDom = '';
+
+			for(var x = 0; x < toDoList.length; x++) {
+				toDoListDom = toDoListDom + '<div><label>' + toDoList[x]['description'] + '</label></div>';
+			}
+			document.getElementById('to-do-list-completed').innerHTML = toDoListDom;		       
+	    }
+	    else {
+	        alert('Request failed.  Returned status of ' + xhr.status);
+	    }
+	};
+	xhr.send();
+}
+
+function markAllItemsComplete() {
+	var id = 1;
+	var postParams = 'id=' +  id;
+
+    xhr = new XMLHttpRequest();
+	xhr.open('PUT', getBaseUrl() + 'mark-all-items-complete');
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+	xhr.onreadystatechange = function() {
+    if(xhr.status != 200) {
+        	alert('An error has occured, please try again');
+    	}
+    	reloadToDoList();
+    	reloadCompletedList();
+	} 
+
+	xhr.send(postParams);
+}
+
+function markSingleItemAsComplete() {
+	console.log('please girl stay to the early morning');
+
+	// var id = 1;
+	// var postParams = 'id=' +  id;
+
+ //    xhr = new XMLHttpRequest();
+	// xhr.open('PUT', getBaseUrl() + 'mark-all-items-complete');
+	// xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+	// xhr.onreadystatechange = function() {
+ //    if(xhr.status != 200) {
+ //        	alert('An error has occured, please try again');
+ //    	}
+ //    	reloadToDoList();
+ //    	reloadCompletedList();
+	// } 
+
+	// xhr.send(postParams);
+}
