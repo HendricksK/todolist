@@ -8,7 +8,7 @@ class databaseController {
 		$this->databaseController = new mysqli('localhost', 'root', 'root');
 	}
 
-	public function retrieveData($sql) {
+	public function queryDatabase($sql) {
 		try {
 			$data = $this->databaseController->query($sql);
 			$this->closeConnection();
@@ -17,24 +17,6 @@ class databaseController {
 			return $e;
 		}
 		
-	}
-
-	public function insertData($sql) {
-		$response = $this->databaseController->query($sql);
-		$this->closeConnection();
-		return $response;
-	}
-
-	public function setData($sql) {
-		$response = $this->databaseController->query($sql);
-		$this->closeConnection();
-		return $response;
-	}
-
-	public function deleteData($sql) {
-		$response = $this->databaseController->query($sql);
-		$this->closeConnection();
-		return $response;
 	}	
 
 	public function closeConnection() {
